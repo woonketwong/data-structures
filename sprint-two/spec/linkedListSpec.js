@@ -17,4 +17,28 @@ describe("linkedList", function() {
   });
 
   // add more tests here to test the functionality of linkedList
+  it("should contain item after it is added", function(){
+    linkedList.addToTail('test string');
+    expect(linkedList.contains('test string').toEqual(true));
+  });
+  
+  it("should no longer contain item after it is added and removed", function(){
+    linkedList.addToTail('test string');
+    linkedList.removeHead('test string');
+    expect(linkedList.contains('test string').toEqual(false));
+  });
+
+  it("should still contain first item after adding another item", function(){
+    linkedList.addToTail(1);
+    linkedList.addToTail(2);
+    expect(linkedList.contains(1).toEqual(true));
+  });
+
+  it("should contain only second item after adding 2 items and removing one of them", function(){
+    linkedList.addToTail(1);
+    linkedList.addToTail(2);
+    linkedList.removeHead();
+    expect(linkedList.contains(1).toEqual(false));
+    expect(linkedList.contains(2).toEqual(true));
+  });
 });
