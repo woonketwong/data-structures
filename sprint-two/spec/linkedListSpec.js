@@ -47,10 +47,11 @@ describe("linkedList", function() {
     expect(linkedList.contains(2)).toEqual(true);
   });
 
-  it("should have remove the first nodes added to it", function(){
+  it("should remove the first nodes added to it", function(){
     linkedList.addToTail(1);
     linkedList.addToTail(2);
     linkedList.addToTail(3);
+    linkedList.removeHead();
     expect(linkedList.contains(1)).toEqual(false);
     linkedList.removeHead();
     expect(linkedList.contains(2)).toEqual(false);
