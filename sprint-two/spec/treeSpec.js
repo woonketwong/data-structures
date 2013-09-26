@@ -12,4 +12,7 @@ describe("tree", function() {
   });
 
   // Add more tests here to test the functionality of tree.
+  it("should have", function(){
+    expect().toEqual();
+  });
 });

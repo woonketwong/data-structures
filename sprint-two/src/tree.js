@@ -1,7 +1,8 @@
 var makeTree = function(){
-  var newTree = {};
-  newTree.value = undefined;
-  newTree.children = undefined;
+  var newTree = {
+    value: undefined;
+    children: undefined;
+  };
 
   return newTree;
 };
