@@ -19,19 +19,19 @@ describe("linkedList", function() {
   // add more tests here to test the functionality of linkedList
   it("should contain node after it is added", function(){
     linkedList.addToTail('test string');
-    expect(linkedList.contains('test string')).toEqual(true);
+    expect(linkedList.contains('test string')).toBe(true);
   });
   
   it("should no longer contain node after it is added and removed", function(){
     linkedList.addToTail('test string');
     linkedList.removeHead('test string');
-    expect(linkedList.contains('test string')).toEqual(false);
+    expect(linkedList.contains('test string')).toBe(false);
   });
 
   it("should still contain first node after adding another node", function(){
     linkedList.addToTail(1);
     linkedList.addToTail(2);
-    expect(linkedList.contains(1)).toEqual(true);
+    expect(linkedList.contains(1)).toBe(true);
   });
 
   it("should return the value of node after it is removed", function(){
@@ -43,8 +43,8 @@ describe("linkedList", function() {
     linkedList.addToTail(1);
     linkedList.addToTail(2);
     linkedList.removeHead();
-    expect(linkedList.contains(1)).toEqual(false);
-    expect(linkedList.contains(2)).toEqual(true);
+    expect(linkedList.contains(1)).toBe(false);
+    expect(linkedList.contains(2)).toBe(true);
   });
 
   it("should remove the first nodes added to it", function(){
@@ -52,11 +52,11 @@ describe("linkedList", function() {
     linkedList.addToTail(2);
     linkedList.addToTail(3);
     linkedList.removeHead();
-    expect(linkedList.contains(1)).toEqual(false);
+    expect(linkedList.contains(1)).toBe(false);
     linkedList.removeHead();
-    expect(linkedList.contains(2)).toEqual(false);
+    expect(linkedList.contains(2)).toBe(false);
     linkedList.removeHead();
-    expect(linkedList.contains(3)).toEqual(false);
+    expect(linkedList.contains(3)).toBe(false);
   });
 
   it("should add and remove nodes correctly after calling removeHead on an empty list", function(){
@@ -64,7 +64,7 @@ describe("linkedList", function() {
     linkedList.addToTail(1);
     linkedList.addToTail(2);
     linkedList.removeHead();
-    expect(linkedList.contains(1)).toEqual(false);
-    expect(linkedList.contains(2)).toEqual(true);
+    expect(linkedList.contains(1)).toBe(false);
+    expect(linkedList.contains(2)).toBe(true);
   });
 });
