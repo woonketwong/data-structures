@@ -1,5 +1,6 @@
 var HashTable = function(){
   this._limit = 8;
+  this._storageOccupancy = 0;
 
   // Use a limited array to store inserted elements.
   // It'll keep you from using too much space. Usage:
@@ -17,8 +18,30 @@ HashTable.prototype.insert = function(k, v){
   console.log(i);
 
   var bucket = this._storage.get(i) || [];
+
+  // increment storageOccupancy if _storage[i] is an empty storage slot
+  bucket.length && this._storageOccupancy++;
+
   bucket.push([k,v]);
   this._storage.set(i, bucket);
+
+  if( this._storageOccupancy / this._limit > 0.75){
+    // resize
+    this.resizeHashTable();
+  }
+};
+
+HashTable.prototype.resizeHashTable = function(){
+  this._limit *= 2;
+  var newStorage = makeLimitedArray(this._limit);
+
+  _.each(this._storage, function(bucket, index, storage){
+    _.each(bucket, function(){
+      
+    })
+  })
+
+
 };
 
 HashTable.prototype.retrieve = function(k){
