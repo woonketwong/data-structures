@@ -42,8 +42,10 @@ HashTable.prototype.remove = function(k){
   _.each(bucket, function(element, index, arr){
     if(element[0] === k){
       // Use Array.splice twice to remove element from the bucket
+      bucket = bucket.splice(0,index).concat(bucket.splice(index+1));
     }
   });
+  this._storage.set(i, bucket);
 };
 
 // NOTE: For this code to work, you will NEED the code from hashTableHelpers.js
