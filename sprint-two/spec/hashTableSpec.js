@@ -58,7 +58,7 @@ describe("hashTable", function() {
     }
   });
 
-  it("should resize when its storage has less than 25% free space", function(){
+  it("should increase its storage size when its storage has 25% (or less) free space", function(){
     var testKeys = 'abcdefghij'.split('');
     for(var i = 0; i < testKeys.length; i++){
       hashTable.insert(testKeys[i],i + 1);
@@ -66,8 +66,34 @@ describe("hashTable", function() {
     for(i = 0; i < testKeys.length; i++){
       expect(hashTable.retrieve(testKeys[i])).toEqual(i + 1);
     }
-    spyOn(window, 'getIndexBelowMaxForKey').andReturn(14);
+    spyOn(window, 'getIndexBelowMaxForKey').andReturn(15);
     hashTable.insert('dog','friendly');
     expect(hashTable.retrieve('dog')).toEqual('friendly');
   });
+
+  it("should increase its storage size by no more than 100% when its storage has 25% (or less) free space", function(){
+    var testKeys = 'abcdefghij'.split('');
+    for(var i = 0; i < testKeys.length; i++){
+      hashTable.insert(testKeys[i],i + 1);
+    }
+    for(i = 0; i < testKeys.length; i++){
+      expect(hashTable.retrieve(testKeys[i])).toEqual(i + 1);
+    }
+    spyOn(window, 'getIndexBelowMaxForKey').andReturn(16);
+    expect(function(){hashTable.insert('dog','friendly');}).toThrow(new Error('Error trying to access an over-the-limit index'));
+  });
+
+  it("should decrease its storage size when its storage has 75% (or more) free space", function(){
+    var testKeys = 'abcdefghij'.split('');
+    for(var i = 0; i < testKeys.length; i++){
+      hashTable.insert(testKeys[i],i + 1);
+    }
+    for(var i = 0; i < testKeys.length; i++){
+      hashTable.remove(testKeys[i],i + 1);
+    }
+    spyOn(window, 'getIndexBelowMaxForKey').andReturn(15);
+    hashTable.insert('dog','friendly');
+    expect(function(){hashTable.insert('dog','friendly');}).toThrow(new Error('Error trying to access an over-the-limit index'));
+  });
+
 });
