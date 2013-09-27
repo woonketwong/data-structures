@@ -15,21 +15,34 @@ var HashTable = function(){
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);
   console.log(i);
-  this._storage.set(i, v);
+
+  var bucket = this._storage.get(i) || [];
+  bucket.push([k,v]);
+  this._storage.set(i, bucket);
 };
 
 HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(i);
+  var bucket = this._storage.get(i);
+  var returnVal = undefined;
+  _.each(bucket, function(element, index, arr){
+    // Every element is an array storing 2 sub-elements.
+    // The key is the first sub-element.
+    // The value we want to retrieve is the second sub-element.
+    if(element[0] === k){
+      returnVal = element[1];
+    }
+  });
+  return returnVal;
 };
 
 HashTable.prototype.remove = function(k){
-  var deleteIndex = getIndexBelowMaxForKey(k, this._limit);
-  this.each(function(val, index, storage){
-    if(index >= deleteIndex && index < storage.length-1){
-      storage[index] = storage[index + 1];
+  var i = getIndexBelowMaxForKey(k, this._limit);
+  var bucket = this._storage.get(i);
+  _.each(bucket, function(element, index, arr){
+    if(element[0] === k){
+      // Use Array.splice twice to remove element from the bucket
     }
-    storage[storage.length-1] = undefined;
   });
 };
 
