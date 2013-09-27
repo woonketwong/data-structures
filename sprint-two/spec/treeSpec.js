@@ -33,14 +33,15 @@ describe("tree", function() {
   });
 
   it("should contain all childrens' values on a single node", function(){
+    var root = tree;
     tree.addChild(5);
     tree.addChild('test string');
     tree.addChild(true);
-    tree.addChild([7,8,9])
+    //tree.addChild([7,8,9])
     expect(root.contains(true)).toBe(true);
     expect(root.contains(5)).toBe(true);
     expect(root.contains('test string')).toBe(true);
-    expect(root.contains([7,8,9])).toBe(true);
+    //expect(root.contains([7,8,9])).toBe(true);
   });
 
 
@@ -49,13 +50,13 @@ describe("tree", function() {
     tree.addChild(1);
     tree.addChild(2);
     tree.addChild(3);
-    tree = tree.children[0];
+    tree = root.children[0];
     tree.addChild(11);
     tree.addChild(12);
-    tree = tree.children[1];
+    tree = root.children[1];
     tree.addChild(21);
     tree.addChild(22);
-    tree = tree.children[2];
+    tree = root.children[2];
     tree.addChild(31);
     tree.addChild(32);
     tree.addChild(33);
@@ -63,43 +64,42 @@ describe("tree", function() {
     expect(root.contains(1)).toBe(true);
     expect(root.contains(2)).toBe(true);
     expect(root.contains(3)).toBe(true);
-    expect(root.contains(11).toBe(true);
-    expect(root.contains(12).toBe(true);
-    expect(root.contains(21).toBe(true);
-    expect(root.contains(22).toBe(true);
-    expect(root.contains(31).toBe(true);
-    expect(root.contains(32).toBe(true);
-    expect(root.contains(33).toBe(true);
-    expect(root.contains(undefined).toBe(true);
+    expect(root.contains(11)).toBe(true);
+    expect(root.contains(12)).toBe(true);
+    expect(root.contains(21)).toBe(true);
+    expect(root.contains(22)).toBe(true);
+    expect(root.contains(31)).toBe(true);
+    expect(root.contains(32)).toBe(true);
+    expect(root.contains(33)).toBe(true);
+    expect(root.contains(undefined)).toBe(true);
   });
-
 
   it("should add nodes in a tree structure", function(){
     var root = tree;
     tree.addChild(1);
     tree.addChild(2);
     tree.addChild(3);
-    tree = tree.children[0];
+    tree = root.children[0];
     tree.addChild(11);
     tree.addChild(12);
-    tree = tree.children[1];
+    tree = root.children[1];
     tree.addChild(21);
     tree.addChild(22);
-    tree = tree.children[2];
+    tree = root.children[2];
     tree.addChild(31);
     tree.addChild(32);
     tree.addChild(33);
 
     tree = root.children[2];
     expect(tree.contains(1)).toBe(false);
-    expect(tree.contains(11).toBe(false);
-    expect(tree.contains(22).toBe(false);
-    expect(tree.contains(31).toBe(true);
+    expect(tree.contains(11)).toBe(false);
+    expect(tree.contains(22)).toBe(false);
+    expect(tree.contains(31)).toBe(true);
 
     tree = tree.children[0];
-    expect(tree.contains(1).toBe(false);
-    expect(tree.contains(22).toBe(false);
-    expect(tree.contains(31).toBe(true);
+    expect(tree.contains(1)).toBe(false);
+    expect(tree.contains(22)).toBe(false);
+    expect(tree.contains(31)).toBe(true);
 
   });
 
