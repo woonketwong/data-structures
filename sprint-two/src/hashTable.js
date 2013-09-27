@@ -20,12 +20,12 @@ HashTable.prototype.insert = function(k, v){
   var bucket = this._storage.get(i) || [];
 
   // increment storageOccupancy if _storage[i] is an empty storage slot
-  bucket.length && this._storageOccupancy++;
+  !bucket.length && this._storageOccupancy++;
 
   bucket.push([k,v]);
   this._storage.set(i, bucket);
 
-  if( this._storageOccupancy / this._limit > 0.75){
+  if(this._storageOccupancy / this._limit >= 0.75){
     // resize
     this.resizeHashTable();
   }
@@ -33,15 +33,21 @@ HashTable.prototype.insert = function(k, v){
 
 HashTable.prototype.resizeHashTable = function(){
   this._limit *= 2;
+  this._storageOccupancy = 0;
   var newStorage = makeLimitedArray(this._limit);
+  var limit = this._limit;
 
-  _.each(this._storage, function(bucket, index, storage){
-    _.each(bucket, function(){
-      
-    })
-  })
+  this._storage.each(function(bucket, storageIndex, storage){
+    _.each(bucket, function(element, bucketIndex, bucket){
+      var i = getIndexBelowMaxForKey(element[0], limit);
+      var newBucket = newStorage.get(i) || [];
+      newBucket.length && this._storageOccupancy++;
+      newBucket.push([element[0], element[1]]);
+      newStorage.set(i, newBucket);
+    });
+  });
 
-
+  this._storage = newStorage;
 };
 
 HashTable.prototype.retrieve = function(k){

@@ -49,12 +49,25 @@ describe("hashTable", function() {
   });
 
   it("should store more values than the storage limit", function(){
-    var testKeys = ['a','b','c','d','e','f','g','h','i','j'];
+    var testKeys = 'abcdefghij'.split('');
     for(var i = 0; i < testKeys.length; i++){
       hashTable.insert(testKeys[i],i + 1);
     }
     for(i = 0; i < testKeys.length; i++){
       expect(hashTable.retrieve(testKeys[i])).toEqual(i + 1);
     }
+  });
+
+  it("should resize when its storage has less than 25% free space", function(){
+    var testKeys = 'abcdefghij'.split('');
+    for(var i = 0; i < testKeys.length; i++){
+      hashTable.insert(testKeys[i],i + 1);
+    }
+    for(i = 0; i < testKeys.length; i++){
+      expect(hashTable.retrieve(testKeys[i])).toEqual(i + 1);
+    }
+    spyOn(window, 'getIndexBelowMaxForKey').andReturn(14);
+    hashTable.insert('dog','friendly');
+    expect(hashTable.retrieve('dog')).toEqual('friendly');
   });
 });
