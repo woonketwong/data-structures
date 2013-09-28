@@ -29,8 +29,6 @@ HashTable.prototype.insert = function(k, v){
     // resize
     this.resizeHashTable(2);
   }
-
-  console.log('occupancy after adding is',this._storageOccupancy);
 };
 
 HashTable.prototype.resizeHashTable = function(resizeFactor){
@@ -79,18 +77,12 @@ HashTable.prototype.remove = function(k){
   });
   this._storage.set(i, bucket);
 
-  console.log('before decrement', this._storageOccupancy, 'bucket length',bucket.length)
   !bucket.length && this._storageOccupancy--;
 
   if(this._limit > 8 && this._storageOccupancy / this._limit <= 0.25){
     // resize
     this.resizeHashTable(1/2);
   }
-
-  console.log('occupancy after decrement',this._storageOccupancy);
-  this._storage.each(function(bucket, index, storage){
-    console.log('bucket',bucket,'index',index);
-  });
 };
 
 // NOTE: For this code to work, you will NEED the code from hashTableHelpers.js
