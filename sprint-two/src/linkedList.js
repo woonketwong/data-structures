@@ -22,7 +22,10 @@ var makeLinkedList = function(){
     if(list.head){
       var headValue = list.head.value;
       list.head = list.head.next;
-      list.head.previous = null;
+      if(list.head){
+        // Don't attempt to set property 'previous' if list was just emptied
+        list.head.previous = null;
+      }
       return headValue;
     }
   };
@@ -45,7 +48,10 @@ var makeLinkedList = function(){
     if(list.tail){
       var tailValue = list.tail.value;
       list.tail = list.tail.previous;
-      list.tail.next = null;
+        if(list.tail){
+          // Don't attempt to set property 'next' if list was just emptied
+          list.tail.next = null;
+        }
       return tailValue;
     }
   };

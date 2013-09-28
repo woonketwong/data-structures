@@ -67,4 +67,12 @@ describe("linkedList", function() {
     expect(linkedList.contains(1)).toBe(false);
     expect(linkedList.contains(2)).toBe(true);
   });
+
+  // tests below are for doubly linked list (extra credit)
+  it("should have methods named 'addToHead' and 'removeTail'", function(){
+    expect(linkedList.addToHead).toEqual(jasmine.any(Function));
+    expect(linkedList.removeTail).toEqual(jasmine.any(Function));
+  });
+
+  it("should ")
 });
