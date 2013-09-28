@@ -27,39 +27,41 @@ HashTable.prototype.insert = function(k, v){
 
   if(this._storageOccupancy / this._limit >= 0.75){
     // resize
-    this.resizeHashTable();
+    this.resizeHashTable(2);
   }
+
+  console.log('occupancy after adding is',this._storageOccupancy);
 };
 
-HashTable.prototype.resizeHashTable = function(){
-  this._limit *= 2;
-  this._storageOccupancy = 0;
-  var newStorage = makeLimitedArray(this._limit);
-  var limit = this._limit;
+HashTable.prototype.resizeHashTable = function(resizeFactor){
+  var newLimit = this._limit * resizeFactor;
+  var newStorage = makeLimitedArray(newLimit);
+  var newStorageOccupancy = 0;
 
   this._storage.each(function(bucket, storageIndex, storage){
-    _.each(bucket, function(element, bucketIndex, bucket){
-      var i = getIndexBelowMaxForKey(element[0], limit);
+    _.each(bucket, function(bucketItem, bucketIndex, bucket){
+      var i = getIndexBelowMaxForKey(bucketItem[0], newLimit);
       var newBucket = newStorage.get(i) || [];
-      newBucket.length && this._storageOccupancy++;
-      newBucket.push([element[0], element[1]]);
+      !newBucket.length && newStorageOccupancy++;
+      newBucket.push([bucketItem[0], bucketItem[1]]);
       newStorage.set(i, newBucket);
     });
   });
-
+  this._limit = newLimit;
   this._storage = newStorage;
+  this._storageOccupancy = newStorageOccupancy;
 };
 
 HashTable.prototype.retrieve = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var bucket = this._storage.get(i);
   var returnVal = undefined;
-  _.each(bucket, function(element, index, arr){
-    // Every element is an array storing 2 sub-elements.
-    // The key is the first sub-element.
-    // The value we want to retrieve is the second sub-element.
-    if(element[0] === k){
-      returnVal = element[1];
+  _.each(bucket, function(bucketItem, index, arr){
+    // Every bucketItem is an array storing 2 elements.
+    // The key is the first element.
+    // The value we want to retrieve is the second element.
+    if(bucketItem[0] === k){
+      returnVal = bucketItem[1];
     }
   });
   return returnVal;
@@ -68,13 +70,27 @@ HashTable.prototype.retrieve = function(k){
 HashTable.prototype.remove = function(k){
   var i = getIndexBelowMaxForKey(k, this._limit);
   var bucket = this._storage.get(i);
-  _.each(bucket, function(element, index, arr){
-    if(element[0] === k){
-      // Use Array.splice twice to remove element from the bucket
+
+  _.each(bucket, function(bucketItem, index, arr){
+    if(bucketItem[0] === k){
+      // Use Array.splice twice to remove bucketItem from the bucket
       bucket = bucket.splice(0,index).concat(bucket.splice(index+1));
     }
   });
   this._storage.set(i, bucket);
+
+  console.log('before decrement', this._storageOccupancy, 'bucket length',bucket.length)
+  !bucket.length && this._storageOccupancy--;
+
+  if(this._limit > 8 && this._storageOccupancy / this._limit <= 0.25){
+    // resize
+    this.resizeHashTable(1/2);
+  }
+
+  console.log('occupancy after decrement',this._storageOccupancy);
+  this._storage.each(function(bucket, index, storage){
+    console.log('bucket',bucket,'index',index);
+  });
 };
 
 // NOTE: For this code to work, you will NEED the code from hashTableHelpers.js

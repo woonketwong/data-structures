@@ -92,7 +92,6 @@ describe("hashTable", function() {
       hashTable.remove(testKeys[i],i + 1);
     }
     spyOn(window, 'getIndexBelowMaxForKey').andReturn(15);
-    hashTable.insert('dog','friendly');
     expect(function(){hashTable.insert('dog','friendly');}).toThrow(new Error('Error trying to access an over-the-limit index'));
   });
 
