@@ -25,6 +25,8 @@ var makeLinkedList = function(){
       if(list.head){
         // Don't attempt to set property 'previous' if list was just emptied
         list.head.previous = null;
+      } else {
+        list.tail = null;
       }
       return headValue;
     }
@@ -39,8 +41,8 @@ var makeLinkedList = function(){
     }
     list.head = newNode;
 
-    if(!list.head){
-      list.head = newNode;
+    if(!list.tail){
+      list.tail = newNode;
     }
   };
 
@@ -51,6 +53,8 @@ var makeLinkedList = function(){
         if(list.tail){
           // Don't attempt to set property 'next' if list was just emptied
           list.tail.next = null;
+        } else {
+          list.head = null;
         }
       return tailValue;
     }
