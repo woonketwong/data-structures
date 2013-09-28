@@ -22,7 +22,19 @@ HashTable.prototype.insert = function(k, v){
   // increment storageOccupancy if _storage[i] is an empty storage slot
   !bucket.length && this._storageOccupancy++;
 
-  bucket.push([k,v]);
+  var keyFound = false;
+
+  _.each(bucket, function(bucketItem, bucketIndex, bucket){
+    if (bucketItem[0] === k){
+      bucketItem[1] = v;
+      keyFound = true;
+    }
+  })
+
+  if(!keyFound){
+    bucket.push([k,v]);
+  }
+
   this._storage.set(i, bucket);
 
   if(this._storageOccupancy / this._limit >= 0.75){
