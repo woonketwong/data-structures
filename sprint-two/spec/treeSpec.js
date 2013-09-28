@@ -103,4 +103,38 @@ describe("tree", function() {
 
   });
 
+  it("should remove node from the tree", function(){
+    var root = tree;
+    root.addChild(1);
+    root.addChild(2);
+    root.addChild(3);
+    var currentNode = root.children[0];
+    currentNode.removeFromParent();
+    expect(root.contains(1)).toBe(false);
+    expect(root.contains(2)).toBe(true);
+    expect(root.contains(3)).toBe(true);
+    expect(currentNode.contains(1)).toBe(true);
+  });
+
+  it("should remove subtree from the tree", function(){
+    var root = tree;
+    tree.addChild(1);
+    tree.addChild(2);
+    tree = root.children[0];
+    tree.addChild(11);
+    tree.addChild(12);
+    tree = root.children[1];
+    tree.addChild(21);
+    tree = root.children[0];
+    tree.removeFromParent();
+    expect(root.contains(1)).toBe(false);
+    expect(root.contains(2)).toBe(true);
+    expect(root.contains(21)).toBe(true);
+
+    expect(tree.contains(1)).toBe(true);
+    expect(tree.contains(11)).toBe(true);
+    expect(tree.contains(12)).toBe(true);
+  });
 });
+
+
