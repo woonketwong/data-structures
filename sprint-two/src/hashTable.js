@@ -46,12 +46,21 @@ HashTable.prototype.resizeHashTable = function(resizeFactor){
   var oldStorage = this._storage;
   this._storage = makeLimitedArray(this._limit);
 
+  // var boundInsert = function(k, v){
+  //   var fn = this;
+  //   var context = this;
+  //   return function(){
+  //     fn.call(context, k, v);
+  //   }
+  // };
+
+  // var boundInsert = HashTable.prototype.insert.bind(this);
+  var that = this;
   oldStorage.each(function(bucket, storageIndex, storage){
     if (bucket !== undefined){
       for(var i = 0; i < bucket.length; i++){
-        console.log('this',this);
-        this.insert(bucket[i][0], bucket[i][1]);
-        console.log('after');
+        that.insert(bucket[i][0], bucket[i][1]);
+        // boundInsert(bucket[i][0], bucket[i][1]);
       };
     }
   });
